@@ -68,6 +68,7 @@
     }
 
     function updateUserAnswers(index) {
+
       let question = quiz.questions[index];
       let form = document.forms[0];
       let formData = new FormData(form);
@@ -86,6 +87,7 @@
     }
 
     async function goBack() {
+
       currentIndex -= 1;
       if (currentIndex >= 0) {
         await displayTheQuestion(currentIndex);
@@ -93,6 +95,7 @@
     }
 
     async function displayTheResult() {
+
       let score = 0;
       for (let i = 0; i < quiz.questions.length; i++) {
         let q = quiz.questions[i];
@@ -101,12 +104,15 @@
         }
       }
       item.innerHTML = "";
-      item.innerHTML += `<h4>You completed the quiz ${quiz.title}.</h4>`;
+      item.innerHTML += `<h4>You completed the quiz ${quiz.title}👏.</h4>`;
+      
       item.innerHTML += `<h4>You scored ${score} out of ${quiz.questions.length}.</h4>`;
     }
 
     async function displayTheQuestion(index) {
+
       let question = quiz.questions[index];
+
       await presentTheQuestion(question);
       stepLabel.innerText = `(Question ${index + 1} out of ${quiz.questions.length})`;
       if (index == 0) {
@@ -119,12 +125,13 @@
     async function presentTheQuestion(question) {
       item.innerHTML = "";
       const headers = { "Authorization": `Bearer ${configuration.token()}` };
-      let response = await fetch(`${host}/questions/${question.id}/image`, { headers }); // Include the authorization header in the image URL request
+      let response = await fetch(`${host}/questions/${question.id}/image`, { headers });
       if (response.status == 401) {
         logout();
       }
-      let result = await response.blob(); // Use response.blob() to get the image data
-      let imageUrl = URL.createObjectURL(result); // Create object URL for the image blob
+      let result = await response.blob();
+
+      let imageUrl = URL.createObjectURL(result);
 
       let div = document.createElement("div");
       div.className = "card";
